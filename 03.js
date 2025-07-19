@@ -18,15 +18,15 @@ console.log("fact3=", fact(3)); // 6
 console.log("fact5=", fact(5)); // 120
 
 
-function factTail(n, acc)
+function factTail(n, prod)
 {
   if (n == 0)
   {
-    return acc;
+    return prod;
   }
   else
   {
-    return factTail(n-1, acc*n);
+    return factTail(n-1, prod*n);
   }
 }
 
@@ -35,15 +35,15 @@ console.log("factTail3=", factTail(3, 1)); // 6
 console.log("factTail5=", factTail(5, 1)); // 120
 
 
-function factTailCPS(n, acc, k)
+function factTailCPS(n, prod, k)
 {
   if (n == 0)
   {
-    return k(acc);
+    return k(prod);
   }
   else
   {
-    return factTailCPS(n-1, acc*n, k);
+    return factTailCPS(n-1, prod*n, k);
   }
 }
 
