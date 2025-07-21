@@ -16,6 +16,18 @@ function callcc(f, k)
   }
 }
 
+function callcc(f, k)
+{
+  try
+  {
+    f(v => { throw v }, k);
+  }
+  catch (e)
+  {
+    k(e);
+  }
+}
+
 
 function test1(k)
 {

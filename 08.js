@@ -4,15 +4,11 @@ function callcc(f, k)
 {
   try
   {
-    return f(
-      v => { throw { tag: "callcc", value: v } },
-      k
-    )
+    return f(v => { throw v }, k);
   }
   catch (e)
   {
-    if (e.tag == "callcc") return k(e.value);
-    throw e;
+    return k(e);
   }
 }
 
@@ -25,7 +21,7 @@ function entry(k)
     (escapeK, nextK) =>
     {
       savedK = escapeK;
-      return nextK(0);
+      nextK(0);
     },
     k
   );
@@ -35,14 +31,14 @@ entry( x => console.log("entry=", x) );
 // entry= 0
 
 console.log(savedK.toString());
-// v => { throw { tag: "callcc", value: v } }
+// v => v => { throw v }
 
 
 function run(f, k)
 {
   try
   {
-    return f();
+    f();
   }
   catch (e)
   {
@@ -50,14 +46,14 @@ function run(f, k)
   }
 }
 
-run( () => savedK("1") );
-run( () => savedK("2") );
+run( () => savedK("1") );  // 1
+run( () => savedK("2") );  // 2
 
 
 
-let savedK_test = v => { throw { tag: "callcc", value: v } };
-run( () => savedK_test("1") );
-run( () => savedK_test("2") );
+let savedK_test = v => { throw v };
+run( () => savedK_test("1") );  // 1
+run( () => savedK_test("2") );  // 2
 
 
 
