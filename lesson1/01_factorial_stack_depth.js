@@ -1,7 +1,19 @@
 
+/**
+ * Factorial Stack Depth Demonstration
+ * 
+ * This file demonstrates measuring the stack depth during recursive function execution.
+ * It calculates factorial while tracking the maximum depth of the call stack.
+ */
+
 let defaultDepth = new Error().stack.split("\n").length;  // 8
 console.log(defaultDepth); // 8
 
+/**
+ * Recursive factorial function that also measures and returns the stack depth
+ * @param {number} n - The number to calculate factorial for
+ * @returns {Array} - A tuple containing [factorial result, maximum stack depth]
+ */
 function fact(n)
 {
   const depth = new Error().stack.split("\n").length - defaultDepth;

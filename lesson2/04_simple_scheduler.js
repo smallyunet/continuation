@@ -1,6 +1,17 @@
 
+/**
+ * Simple Task Scheduler Implementation
+ * 
+ * This file demonstrates a basic task scheduler that maintains a queue of functions
+ * and executes them in order. This is a fundamental concept for understanding 
+ * cooperative multitasking and continuations.
+ */
+
 let ready = [];
 
+/**
+ * Runs all the tasks in the ready queue until the queue is empty
+ */
 function run()
 {
   while (ready.length > 0)
@@ -18,12 +29,18 @@ run();
 
 
 
+/**
+ * Example task A that prints two messages
+ */
 function taskA()
 {
   console.log("task A0");
   console.log("task A1");
 }
 
+/**
+ * Example task B that prints two messages
+ */
 function taskB()
 {
   console.log("task B0");

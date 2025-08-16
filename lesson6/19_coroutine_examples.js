@@ -1,5 +1,18 @@
+/**
+ * Coroutine Examples
+ * 
+ * This file provides practical examples of coroutines implemented with
+ * shift/reset delimited continuations to demonstrate their utility.
+ */
+
+/**
+ * Queue of ready continuations waiting to be executed
+ */
 let ready = [];
 
+/**
+ * Runs all the tasks in the ready queue until the queue is empty
+ */
 function run()
 {
   while (ready.length > 0)
@@ -9,6 +22,10 @@ function run()
   }
 }
 
+/**
+ * Reset operator - delimits the scope of the continuation captured by shift
+ * @param {function} thunk - The thunk function to execute within a delimited context
+ */
 function reset(thunk)
 {
   try
@@ -21,12 +38,18 @@ function reset(thunk)
   }
 }
 
+/**
+ * Shift operator - captures the current delimited continuation up to the nearest reset
+ * @param {function} f - The function to apply to the captured continuation
+ */
 function shift(f)
 {
   throw f;
 }
 
-function spawn(thunk)
+/**
+ * Spawns a new example coroutine
+ * @param {function} thunk - The coroutine function to spawn
 {
   ready.push(thunk);
 }

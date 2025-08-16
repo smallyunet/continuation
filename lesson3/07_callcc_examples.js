@@ -1,12 +1,25 @@
 
 
+/**
+ * Advanced Call/cc Examples
+ * 
+ * This file contains multiple implementations of call/cc (Call with Current Continuation)
+ * to demonstrate different approaches and applications of this control flow concept.
+ */
+
+/**
+ * Implementation of call/cc using tagged exceptions for control flow
+ * @param {function} f - Function that receives escape and next continuations
+ * @param {function} k - The current continuation
+ * @returns {*} - The result of the continuation
+ */
 function callcc(f, k)
 {
   try
   {
     return f(
-      v => { throw { tag: "callcc", value: v } },
-      k
+      v => { throw { tag: "callcc", value: v } },  // Escape continuation
+      k  // Next continuation
     )
   }
   catch (e)
@@ -16,15 +29,20 @@ function callcc(f, k)
   }
 }
 
+/**
+ * Simplified implementation of call/cc using direct exceptions
+ * @param {function} f - Function that receives escape and next continuations
+ * @param {function} k - The current continuation
+ */
 function callcc(f, k)
 {
   try
   {
-    f(v => { throw v }, k);
+    f(v => { throw v }, k);  // Escape continuation throws the value directly
   }
   catch (e)
   {
-    k(e);
+    k(e);  // Next continuation receives the thrown value
   }
 }
 

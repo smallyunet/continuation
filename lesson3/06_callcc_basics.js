@@ -1,17 +1,34 @@
 
 
+/**
+ * Call with Current Continuation (call/cc) Basics
+ * 
+ * This file demonstrates the basic concepts of call/cc, a powerful control flow
+ * construct that captures the current continuation and allows non-local returns.
+ */
+
+/**
+ * Implementation of call/cc (call with current continuation)
+ * @param {function} f - Function that receives the current continuation
+ * @param {function} k - The current continuation
+ * @returns {*} - The result of applying f to k
+ */
 function callcc(f, k)
 {
   return f(k, k);
 }
 
+/**
+ * Test function demonstrating basic call/cc usage
+ * @param {function} k - Continuation function
+ */
 function test1(k)
 {
   callcc(
     (escapeK, nextK) =>
     {
-      escapeK(42);
-      nextK(1);
+      escapeK(42);  // First return value through the escape continuation
+      nextK(1);     // Second return value through the next continuation
     }, 
     k
   );

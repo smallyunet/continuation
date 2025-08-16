@@ -1,6 +1,18 @@
 
 
+/**
+ * Introduction to Continuation-Passing Style (CPS)
+ * 
+ * This file demonstrates the basics of CPS by comparing traditional recursive functions
+ * with their CPS equivalents. CPS is a programming style where control is passed
+ * explicitly in the form of a continuation.
+ */
 
+/**
+ * Traditional recursive factorial function
+ * @param {number} n - The number to calculate factorial for
+ * @returns {number} - The factorial result
+ */
 function fact(n)
 {
   if (n === 0) 
@@ -17,6 +29,12 @@ console.log(fact(5)); // 120
 
 
 
+/**
+ * CPS version of the factorial function
+ * @param {number} n - The number to calculate factorial for
+ * @param {function} k - Continuation function that receives the result
+ * @returns {*} - The result of applying the continuation
+ */
 function factCPS(n, k)
 {
   if (n == 0)

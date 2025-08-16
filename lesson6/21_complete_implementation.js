@@ -1,25 +1,55 @@
+/**
+ * Complete Coroutine Implementation
+ * 
+ * This file provides a comprehensive implementation of a coroutine system
+ * with both cooperative and preemptive scheduling options.
+ */
+
+/**
+ * Queue of ready continuations waiting to be executed
+ */
 let ready = [];
 
-console.log(performance.now());
+/**
+ * Standard cooperative scheduler that runs tasks until they yield
+ */
+function run()
+{
+  while (ready.length > 0)
+  {
+    const k = ready.shift()
+    k();
+  }
+}
 
-function run(timeSlice = 1) 
+/**
+ * Preemptive scheduler that allocates time slices to tasks
+ * @param {number} timeSlice - The maximum time (in ms) a task can run before being preempted
+ */
+function run2(timeSlice) 
 {
   function tick() 
   {
     const sliceStart = performance.now();
 
+    // Run tasks until the time slice is used up
     while (ready.length > 0 && performance.now() - sliceStart < timeSlice) 
     {
       const k = ready.shift();
       k();
     }
 
+    // If there are more tasks, schedule another tick
     if (ready.length > 0) setTimeout(tick, 0);
   }
 
   setTimeout(tick, 0);
 }
 
+/**
+ * Reset operator - delimits the scope of the continuation captured by shift
+ * @param {function} thunk - The thunk function to execute within a delimited context
+ */
 function reset(thunk)
 {
   try
@@ -74,7 +104,7 @@ function makeCPSTask(n)
   }
 }
 
-function makeLongTask(n)
+function makeLongTask(n, chunk)
 {
   return function task()
   {
@@ -86,14 +116,14 @@ function makeLongTask(n)
           {
             console.log("block task start");
             let i = 0;
-            function chunk() 
+            function chunkLoop() 
             {
-              const end = Math.min(i + 1e7, n);
+              const end = Math.min(i + chunk, n);
               for (; i < end; i++) ;          // 纯计算
-              if (i < n) k1(chunk);           // 让出控制权
+              if (i < n) k1(chunkLoop);       // 让出控制权
               else console.log('block task end');
             }
-            chunk();
+            chunkLoop();
           }
         );
       }
@@ -101,15 +131,14 @@ function makeLongTask(n)
   }
 }
 
-let longTask = makeLongTask(5e7);
+let longTask = makeLongTask(5e8, 5e7);
 let shortTask = makeCPSTask(2);
 
 spawn(longTask);
 spawn(shortTask);
-run();
 
-// block task start
-// task 0/2
-// task 1/2
-// block task end
-// task 2/2
+setTimeout(() => console.log('>>> TIMER fired'), 100);
+
+// run();
+run2(1);
+

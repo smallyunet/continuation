@@ -1,5 +1,19 @@
+/**
+ * Introduction to Preemptive Coroutines
+ * 
+ * This file introduces the concept of preemptive multitasking using JavaScript's
+ * event loop and setTimeout to implement cooperative-yet-preemptive task scheduling.
+ */
+
+/**
+ * Queue of ready continuations waiting to be executed
+ */
 let ready = [];
 
+/**
+ * Runs all the tasks in the ready queue in a preemptive manner
+ * Uses setTimeout with 0ms delay to yield to the event loop between tasks
+ */
 function run()
 {
   function tick()
@@ -18,6 +32,10 @@ function run()
   tick();
 }
 
+/**
+ * Reset operator - delimits the scope of the continuation captured by shift
+ * @param {function} thunk - The thunk function to execute within a delimited context
+ */
 function reset(thunk)
 {
   try

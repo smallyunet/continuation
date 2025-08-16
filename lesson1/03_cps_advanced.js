@@ -1,6 +1,18 @@
 
+/**
+ * Advanced Continuation-Passing Style (CPS) Examples
+ * 
+ * This file demonstrates more complex applications of CPS,
+ * including comparisons between regular recursion, tail recursion, and CPS.
+ */
+
 // ------------ fact -----------
 
+/**
+ * Standard recursive factorial function
+ * @param {number} n - The number to calculate factorial for
+ * @returns {number} - The factorial result
+ */
 function fact(n)
 {
   if (n === 0) 
@@ -18,6 +30,12 @@ console.log("fact3=", fact(3)); // 6
 console.log("fact5=", fact(5)); // 120
 
 
+/**
+ * Tail-recursive factorial function
+ * @param {number} n - The number to calculate factorial for
+ * @param {number} prod - The accumulating product
+ * @returns {number} - The factorial result
+ */
 function factTail(n, prod)
 {
   if (n == 0)

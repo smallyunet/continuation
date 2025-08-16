@@ -1,5 +1,18 @@
+/**
+ * Advanced Call/cc Applications
+ * 
+ * This file demonstrates complex control flow patterns using call/cc,
+ * including schedulers, cooperative multitasking, and more sophisticated examples.
+ */
+
+/**
+ * Queue of ready continuations waiting to be executed
+ */
 let ready = [];
 
+/**
+ * Runs all the tasks in the ready queue until the queue is empty
+ */
 function run()
 {
   while (ready.length > 0)
@@ -9,6 +22,12 @@ function run()
   }
 }
 
+/**
+ * Implementation of call/cc using exceptions for control flow
+ * @param {function} f - Function that receives escape and next continuations
+ * @param {function} k - The current continuation
+ * @returns {*} - The result of the continuation
+ */
 function callcc(f, k)
 {
   try
